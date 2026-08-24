@@ -1309,6 +1309,45 @@ Além disso, encontre:
 - o menor valor;
 - a quantidade de números pares.
 
+### Código da Atividade 1
+### Criação da lista para armazenar os números 
+numeros = []
+
+### Solicita 10 números inteiros ao usuário
+print("Digite 10 números inteiros:")
+for i in range(10):
+    while True:
+        try:
+            num = int(input(f"Digite o {i+1}º número: "))
+            numeros.append(num)
+            break
+        except ValueError:
+            print("Valor inválido! Digite um número inteiro.")
+
+### Exibe todos os números
+print("\n--- RESULTADOS ---")
+print(f"Números digitados: {numeros}")
+
+### Calcula a soma
+soma = sum(numeros)
+print(f"Soma: {soma}")
+
+### Calcula a média
+media = soma / len(numeros)
+print(f"Média: {media:.2f}")
+
+### Encontra o maior valor
+maior = max(numeros)
+print(f"Maior valor: {maior}")
+
+### Encontra o menor valor
+menor = min(numeros)
+print(f"Menor valor: {menor}")
+
+### Conta a quantidade de números pares
+pares = sum(1 for num in numeros if num % 2 == 0)
+print(f"Quantidade de números pares: {pares}")
+
 ---
 
 ## Atividade 2 — Matrizes
@@ -1344,6 +1383,40 @@ Soma:
 1 + 5 + 9 = 15
 ```
 
+### Código da Atividade 2
+### Cria uma matriz 3x3 vazia
+matriz = []
+
+print("Digite 9 números para a matriz 3x3:")
+for i in range(3):
+    linha = []
+    for j in range(3):
+        while True:
+            try:
+                linha.append(int(input(f"Posição [{i+1}][{j+1}]: ")))
+                break
+            except ValueError:
+                print("Digite um número inteiro!")
+    matriz.append(linha)
+
+### Exibição da matriz
+print("\nMATRIZ:")
+for linha in matriz:
+    print("  ".join(f"{num:3d}" for num in linha))
+
+### Soma total
+soma_total = sum(sum(linha) for linha in matriz)
+print(f"\nSoma total: {soma_total}")
+
+### Soma da diagonal principal
+diagonal = [matriz[i][i] for i in range(3)]
+soma_diagonal = sum(diagonal)
+print(f"Soma diagonal principal: {' + '.join(map(str, diagonal))} = {soma_diagonal}")
+
+### Maior elemento
+maior = max(max(linha) for linha in matriz)
+print(f"Maior elemento: {maior}")
+
 ---
 
 ## Atividade 3 — Dicionário
@@ -1364,6 +1437,37 @@ Depois:
 3. exiba os dados;
 4. altere o preço;
 5. adicione uma informação chamada `categoria`.
+
+### Código da Atividade 3
+### Cria um dicionário vazio para o livro
+livro = {}
+
+### 1. Leitura dos dados
+print(" Cadastro de Livro")
+livro['titulo'] = input("Título: ")
+livro['autor'] = input("Autor: ")
+livro['ano'] = int(input("Ano: "))
+livro['preco'] = float(input("Preço: "))
+
+### 2. Exibição inicial
+print("\n Dados do livro:")
+for chave, valor in livro.items():
+    print(f"  {chave}: {valor}")
+
+### 3. Alteração do preço
+print(f"\nPreço atual: R$ {livro['preco']:.2f}")
+livro['preco'] = float(input("Novo preço: R$ "))
+
+### 4. Adição da categoria
+livro['categoria'] = input("Categoria: ")
+
+### Exibição final
+print("\n Dados atualizados:")
+for chave, valor in livro.items():
+    if chave == 'preco':
+        print(f"  {chave}: R$ {valor:.2f}")
+    else:
+        print(f"  {chave}: {valor}")
 
 ---
 
@@ -1393,6 +1497,32 @@ aluno = Aluno(
 print(aluno.media())
 ```
 
+### Código da Atividade 4
+### Criação do dataclass
+from dataclasses import dataclass
+
+@dataclass
+class Aluno:
+    nome: str
+    matricula: int
+    nota1: float
+    nota2: float
+    
+    def media(self) -> float:
+        """Calcula a média das duas notas"""
+        return (self.nota1 + self.nota2) / 2
+
+### Exemplo de uso
+aluno = Aluno(
+    "Maria",
+    12345,
+    8.0,
+    9.0
+)
+
+print(f"Média: {aluno.media():.2f}")
+print(aluno)  # Exibe a representação da dataclass
+
 ---
 
 ## Atividade 5 — Lista de objetos
@@ -1410,6 +1540,82 @@ Considere aprovação:
 ```text
 média >= 7.0
 ```
+
+### Código da Atividade 5
+### criação do dataclass
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Aluno:
+    nome: str
+    matricula: int
+    nota1: float
+    nota2: float
+    
+    def media(self) -> float:
+        return (self.nota1 + self.nota2) / 2
+    
+    def aprovado(self) -> bool:
+        return self.media() >= 7.0
+
+def main():
+### Cadastro de 5 alunos
+    alunos = [
+        Aluno("Maria Silva", 1001, 8.5, 9.0),
+        Aluno("João Santos", 1002, 6.0, 5.5),
+        Aluno("Pedro Oliveira", 1003, 7.5, 8.0),
+        Aluno("Ana Costa", 1004, 9.0, 9.5),
+        Aluno("Carlos Lima", 1005, 4.5, 5.0)
+    ]
+    
+    print("=" * 60)
+    print("         LISTA DE ALUNOS CADASTRADOS")
+    print("=" * 60)
+    for aluno in alunos:
+        print(f"  {aluno.nome} (Mat: {aluno.matricula}) - Notas: {aluno.nota1:.1f}, {aluno.nota2:.1f}")
+    
+### 1. Calcula e exibe a média de cada aluno
+    print("\n" + "=" * 60)
+    print("         MÉDIAS DOS ALUNOS")
+    print("=" * 60)
+    print(f"{'Nome':<20} {'Matrícula':<10} {'Média':<8} {'Situação'}")
+    print("-" * 50)
+    
+    for aluno in alunos:
+        media = aluno.media()
+        situacao = " Aprovado" if aluno.aprovado() else " Reprovado"
+        print(f"{aluno.nome:<20} {aluno.matricula:<10} {media:<8.1f} {situacao}")
+    
+### 2. Exibe os alunos aprovados
+    aprovados = [aluno for aluno in alunos if aluno.aprovado()]
+    
+    print("\n" + "=" * 60)
+    print("         ALUNOS APROVADOS")
+    print("=" * 60)
+    
+    if aprovados:
+        print(f"\nTotal: {len(aprovados)} alunos aprovados")
+        for i, aluno in enumerate(aprovados, 1):
+            print(f"  {i}. {aluno.nome} - Média: {aluno.media():.1f}")
+    else:
+        print("\n   Nenhum aluno foi aprovado.")
+    
+### 3. Identificar o aluno com maior média
+    aluno_destaque = max(alunos, key=lambda a: a.media())
+    
+    print("\n" + "=" * 60)
+    print("         ALUNO COM MAIOR MÉDIA")
+    print("=" * 60)
+    print(f"\n   {aluno_destaque.nome}")
+    print(f"   Matrícula: {aluno_destaque.matricula}")
+    print(f"   Média: {aluno_destaque.media():.1f}")
+    print(f"   Notas: {aluno_destaque.nota1:.1f} e {aluno_destaque.nota2:.1f}")
+    
+    print("\n" + "=" * 60)
+
+if __name__ == "__main__":
+    main()
 
 ---
 
@@ -1453,7 +1659,263 @@ Implemente um menu:
 Escolha:
 ```
 
-Esse exercício prepara o estudante para conteúdos posteriores, como funções, modularização e estruturas de dados mais complexas.
+### Código do desafio
+from dataclasses import dataclass
+from typing import List, Optional
+import os
+
+@dataclass
+class Produto:
+    codigo: int
+    nome: str
+    preco: float
+    quantidade: int
+    
+    def valor_total(self) -> float:
+        """Calcula o valor total do produto (preço * quantidade)"""
+        return self.preco * self.quantidade
+    
+    def __str__(self) -> str:
+        return f"{self.codigo:04d} | {self.nome:<25} | R$ {self.preco:>8.2f} | {self.quantidade:>5} un | R$ {self.valor_total():>10.2f}"
+
+class SistemaEstoque:
+    def __init__(self):
+        self.produtos: List[Produto] = []
+        self.proximo_codigo = 1
+    
+    def cadastrar_produto(self, nome: str, preco: float, quantidade: int) -> Produto:
+        """Cadastra um novo produto com código automático"""
+        codigo = self.proximo_codigo
+        self.proximo_codigo += 1
+        
+        produto = Produto(codigo, nome, preco, quantidade)
+        self.produtos.append(produto)
+        return produto
+    
+    def listar_produtos(self) -> None:
+        """Exibe todos os produtos cadastrados"""
+        if not self.produtos:
+            print("\n Nenhum produto cadastrado!")
+            return
+        
+        print("\n" + "=" * 80)
+        print("         LISTA DE PRODUTOS")
+        print("=" * 80)
+        print(f"{'Código':<8} {'Nome':<25} {'Preço':<12} {'Quantidade':<12} {'Valor Total'}")
+        print("-" * 80)
+        
+        for produto in self.produtos:
+            print(produto)
+        
+        print("-" * 80)
+        total_estoque = self.valor_total_estoque()
+        print(f"{'Total do Estoque:':<55} R$ {total_estoque:>10.2f}")
+        print("=" * 80)
+    
+    def buscar_produto(self, codigo: int) -> Optional[Produto]:
+        """Busca um produto pelo código"""
+        for produto in self.produtos:
+            if produto.codigo == codigo:
+                return produto
+        return None
+    
+    def valor_total_estoque(self) -> float:
+        """Calcula o valor total de todos os produtos em estoque"""
+        return sum(produto.valor_total() for produto in self.produtos)
+    
+    def produto_mais_caro(self) -> Optional[Produto]:
+        """Retorna o produto com maior preço unitário"""
+        if not self.produtos:
+            return None
+        return max(self.produtos, key=lambda p: p.preco)
+    
+    def exibir_produto_detalhado(self, produto: Produto) -> None:
+        """Exibe detalhes de um produto específico"""
+        print("\n" + "=" * 60)
+        print("         DETALHES DO PRODUTO")
+        print("=" * 60)
+        print(f"   Código:    {produto.codigo:04d}")
+        print(f"   Nome:      {produto.nome}")
+        print(f"   Preço:     R$ {produto.preco:.2f}")
+        print(f"   Quantidade: {produto.quantidade} unidades")
+        print(f"   Valor total: R$ {produto.valor_total():.2f}")
+        print("=" * 60)
+    
+    def menu(self) -> None:
+        """Exibe o menu principal e gerencia as opções"""
+        while True:
+            self._limpar_tela()
+            print("=" * 40)
+            print("     SISTEMA DE ESTOQUE")
+            print("=" * 40)
+            print("  1 - Cadastrar produto")
+            print("  2 - Listar produtos")
+            print("  3 - Buscar produto")
+            print("  4 - Valor total do estoque")
+            print("  5 - Produto mais caro")
+            print("  0 - Sair")
+            print("=" * 40)
+            
+            opcao = input("\nEscolha uma opção: ").strip()
+            
+            if opcao == "1":
+                self._cadastrar_interativo()
+            elif opcao == "2":
+                self._listar_interativo()
+            elif opcao == "3":
+                self._buscar_interativo()
+            elif opcao == "4":
+                self._valor_total_interativo()
+            elif opcao == "5":
+                self._produto_mais_caro_interativo()
+            elif opcao == "0":
+                self._sair()
+                break
+            else:
+                print("\n Opção inválida!")
+                input("\nPressione ENTER para continuar...")
+    
+    def _limpar_tela(self) -> None:
+        """Limpa a tela do terminal"""
+        os.system('cls' if os.name == 'nt' else 'clear')
+    
+    def _cadastrar_interativo(self) -> None:
+        """Cadastra um novo produto interativamente"""
+        print("\n" + "=" * 40)
+        print("     CADASTRO DE PRODUTO")
+        print("=" * 40)
+        
+        try:
+            nome = input("Nome do produto: ").strip()
+            if not nome:
+                print(" Nome não pode estar vazio!")
+                input("\nPressione ENTER para continuar...")
+                return
+            
+            preco = float(input("Preço (R$): "))
+            if preco < 0:
+                print(" Preço não pode ser negativo!")
+                input("\nPressione ENTER para continuar...")
+                return
+            
+            quantidade = int(input("Quantidade: "))
+            if quantidade < 0:
+                print(" Quantidade não pode ser negativa!")
+                input("\nPressione ENTER para continuar...")
+                return
+            
+            produto = self.cadastrar_produto(nome, preco, quantidade)
+            
+            print("\n Produto cadastrado com sucesso!")
+            print(f"   Código: {produto.codigo:04d}")
+            print(f"   Nome: {produto.nome}")
+            print(f"   Preço: R$ {produto.preco:.2f}")
+            print(f"   Quantidade: {produto.quantidade}")
+            
+        except ValueError:
+            print("\n Valor inválido! Digite números corretamente.")
+        
+        input("\nPressione ENTER para continuar...")
+    
+    def _listar_interativo(self) -> None:
+        """Lista todos os produtos"""
+        self.listar_produtos()
+        input("\nPressione ENTER para continuar...")
+    
+    def _buscar_interativo(self) -> None:
+        """Busca um produto pelo código"""
+        print("\n" + "=" * 40)
+        print("     BUSCAR PRODUTO")
+        print("=" * 40)
+        
+        try:
+            codigo = int(input("Digite o código do produto: "))
+            produto = self.buscar_produto(codigo)
+            
+            if produto:
+                self.exibir_produto_detalhado(produto)
+            else:
+                print(f"\n Produto com código {codigo:04d} não encontrado!")
+                
+        except ValueError:
+            print("\n Código inválido! Digite apenas números.")
+        
+        input("\nPressione ENTER para continuar...")
+    
+    def _valor_total_interativo(self) -> None:
+        """Exibe o valor total do estoque"""
+        print("\n" + "=" * 40)
+        print("     VALOR TOTAL DO ESTOQUE")
+        print("=" * 40)
+        
+        if not self.produtos:
+            print(" Nenhum produto cadastrado!")
+        else:
+            total = self.valor_total_estoque()
+            print(f"\n Valor total do estoque: R$ {total:.2f}")
+            
+            print("\n Detalhamento:")
+            print("-" * 40)
+            for produto in self.produtos:
+                print(f"  {produto.codigo:04d} - {produto.nome:<25} R$ {produto.valor_total():>10.2f}")
+            print("-" * 40)
+            print(f"  {'TOTAL':<38} R$ {total:>10.2f}")
+        
+        input("\nPressione ENTER para continuar...")
+    
+    def _produto_mais_caro_interativo(self) -> None:
+        """Exibe o produto com maior preço"""
+        print("\n" + "=" * 40)
+        print("     PRODUTO MAIS CARO")
+        print("=" * 40)
+        
+        if not self.produtos:
+            print(" Nenhum produto cadastrado!")
+        else:
+            produto = self.produto_mais_caro()
+            print(f"\n Produto com maior preço unitário:")
+            self.exibir_produto_detalhado(produto)
+        
+        input("\nPressione ENTER para continuar...")
+    
+    def _sair(self) -> None:
+        """Mensagem de saída"""
+        print("\n" + "=" * 40)
+        print("     OBRIGADO POR USAR O SISTEMA!")
+        print("=" * 40)
+
+### Função para testar com dados iniciais
+def popular_estoque(sistema: SistemaEstoque) -> None:
+    """Popula o estoque com dados de exemplo"""
+    produtos_iniciais = [
+        ("Notebook Dell", 3500.00, 10),
+        ("Mouse Logitech", 89.90, 50),
+        ("Teclado Mecânico", 299.00, 30),
+        ("Monitor 27''", 1200.00, 15),
+        ("SSD 1TB", 450.00, 25),
+        ("Memória RAM 16GB", 280.00, 20),
+        ("Impressora HP", 650.00, 8),
+        ("Caixa de Som", 180.00, 12)
+    ]
+    
+    for nome, preco, quantidade in produtos_iniciais:
+        sistema.cadastrar_produto(nome, preco, quantidade)
+    
+    print(" Estoque inicial carregado com sucesso!")
+
+### Programa principal
+if __name__ == "__main__":
+    sistema = SistemaEstoque()
+    
+    # Opcional: carregar dados iniciais
+    print("Deseja carregar dados de exemplo? (s/n)")
+    resposta = input("> ").lower()
+    
+    if resposta in ['s', 'sim', 'y', 'yes']:
+        popular_estoque(sistema)
+        input("\nPressione ENTER para continuar...")
+    
+    sistema.menu()
 
 ---
 
