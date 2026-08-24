@@ -1309,7 +1309,7 @@ Além disso, encontre:
 - o menor valor;
 - a quantidade de números pares.
 
-### Código da Atividade 1
+## Código da Atividade 1
 ### Criação da lista para armazenar os números 
 numeros = []
 
@@ -1383,7 +1383,7 @@ Soma:
 1 + 5 + 9 = 15
 ```
 
-### Código da Atividade 2
+## Código da Atividade 2
 ### Cria uma matriz 3x3 vazia
 matriz = []
 
@@ -1438,7 +1438,7 @@ Depois:
 4. altere o preço;
 5. adicione uma informação chamada `categoria`.
 
-### Código da Atividade 3
+## Código da Atividade 3
 ### Cria um dicionário vazio para o livro
 livro = {}
 
@@ -1497,7 +1497,7 @@ aluno = Aluno(
 print(aluno.media())
 ```
 
-### Código da Atividade 4
+## Código da Atividade 4
 ### Criação do dataclass
 from dataclasses import dataclass
 
@@ -1541,7 +1541,7 @@ Considere aprovação:
 média >= 7.0
 ```
 
-### Código da Atividade 5
+## Código da Atividade 5
 ### criação do dataclass
 from dataclasses import dataclass
 from typing import List
@@ -1659,7 +1659,7 @@ Implemente um menu:
 Escolha:
 ```
 
-### Código do desafio
+## Código do desafio
 from dataclasses import dataclass
 from typing import List, Optional
 import os
