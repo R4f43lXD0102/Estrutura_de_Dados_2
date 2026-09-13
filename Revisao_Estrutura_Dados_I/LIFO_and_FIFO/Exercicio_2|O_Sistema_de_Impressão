@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Fila {
+	int capacidade;
+	char **dados;
+	int primeiro;
+	int ultimo;
+	int nItens;
+};
+
+void criarFila(struct Fila *f, int c) {
+	f->capacidade = c;
+	f->dados = (char**)malloc(c * sizeof(char*));
+	if (f->dados == NULL) {
+		printf("Erro ao alocar memoria!\n");
+		exit(1);
+	}
+	for (int i = 0; i < c; i++) {
+		f->dados[i] = NULL;
+	}
+	f->primeiro = 0;
+	f->ultimo = -1;
+	f->nItens = 0;
+}
+
+void inserir(struct Fila *f, const char *nome) {
+	if (f->ultimo == f->capacidade - 1)
+		f->ultimo = -1;
+	f->ultimo++;
+	f->dados[f->ultimo] = (char*)malloc(strlen(nome) + 1);
+	strcpy(f->dados[f->ultimo], nome);
+	f->nItens++;
+}
+
+char *remover(struct Fila *f) {
+	char *temp = f->dados[f->primeiro];
+	f->primeiro++;
+	if (f->primeiro == f->capacidade)
+		f->primeiro = 0;
+	f->nItens--;
+	return temp;
+}
+
+int estaVazia(struct Fila *f) {
+	return (f->nItens == 0);
+}
+
+int estaCheia(struct Fila *f) {
+	return (f->nItens == f->capacidade);
+}
+
+void mostrarFila(struct Fila *f) {
+	int cont, i;
+	for (cont = 0, i = f->primeiro; cont < f->nItens; cont++) {
+		printf("%s\t", f->dados[i]);
+		i++;
+		if (i == f->capacidade)
+			i = 0;
+	}
+	printf("\n\n");
+}
+
+int main() {
+	int opcao, capa;
+	char nome[100], *nomeRemovido;
+	struct Fila umaFila;
+
+	printf("\nCapacidade da fila? ");
+	scanf("%d", &capa);
+	criarFila(&umaFila, capa);
+
+	while (1) {
+		printf("\n1 - Inserir elemento\n2 - Remover elemento\n3 - Mostrar Fila\n0 - Sair\n\nOpcao? ");
+		scanf("%d", &opcao);
+		switch (opcao) {
+		case 0:
+			for (int i = 0; i < umaFila.capacidade; i++) {
+				if (umaFila.dados[i] != NULL)
+					free(umaFila.dados[i]);
+			}
+			free(umaFila.dados);
+			exit(0);
+		case 1:
+			if (estaCheia(&umaFila))
+				printf("\nFila Cheia!!!\n\n");
+			else {
+				printf("\nNome do elemento a ser inserido? ");
+				scanf("%99s", nome);
+				inserir(&umaFila, nome);
+			}
+			break;
+		case 2:
+			if (estaVazia(&umaFila))
+				printf("\nFila vazia!!!\n\n");
+			else {
+				nomeRemovido = remover(&umaFila);
+				printf("\n%s removido com sucesso\n\n", nomeRemovido);
+				free(nomeRemovido);
+			}
+			break;
+		case 3:
+			if (estaVazia(&umaFila))
+				printf("\nFila vazia!!!\n\n");
+			else {
+				printf("\nConteudo da fila => ");
+				mostrarFila(&umaFila);
+			}
+			break;
+		default:
+			printf("\nOpcao Invalida\n\n");
+		}
+	}
+}
