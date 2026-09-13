@@ -1,0 +1,83 @@
+#include <iostream>
+#include <deque>
+#include <string>
+
+using namespace std;
+
+int main() {
+    deque<string> fila;
+    int opcao;
+    string nome;
+
+    do {
+        cout << "\n===== TRIAGEM HOSPITALAR =====\n";
+        cout << "1 - Cadastrar paciente normal\n";
+        cout << "2 - Cadastrar paciente prioritario\n";
+        cout << "3 - Atender paciente\n";
+        cout << "4 - Mostrar fila\n";
+        cout << "0 - Sair\n";
+        cout << "Escolha uma opcao: ";
+        cin >> opcao;
+
+        cin.ignore();
+
+        switch (opcao) {
+
+            case 1:
+                cout << "Digite o nome do paciente: ";
+                getline(cin, nome);
+
+                // Paciente normal entra no final da fila
+                fila.push_back(nome);
+
+                cout << "Paciente cadastrado no final da fila!\n";
+                break;
+
+            case 2:
+                cout << "Digite o nome do paciente prioritario: ";
+                getline(cin, nome);
+
+                // Paciente prioritario entra no inicio da fila
+                fila.push_front(nome + " (PRIORIDADE)");
+
+                cout << "Paciente prioritario colocado no inicio da fila!\n";
+                break;
+
+            case 3:
+                if (fila.empty()) {
+                    cout << "Nao ha pacientes na fila.\n";
+                } else {
+                    cout << "Atendendo paciente: " << fila.front() << endl;
+
+                    // Remove o primeiro paciente
+                    fila.pop_front();
+                }
+                break;
+
+            case 4:
+                if (fila.empty()) {
+                    cout << "A fila esta vazia.\n";
+                } else {
+                    cout << "\n===== FILA DE ATENDIMENTO =====\n";
+
+                    int posicao = 1;
+
+                    for (const string& paciente : fila) {
+                        cout << posicao << " - " << paciente << endl;
+                        posicao++;
+                    }
+                }
+                break;
+
+            case 0:
+                cout << "Encerrando o programa...\n";
+                break;
+
+            default:
+                cout << "Opcao invalida!\n";
+        }
+
+    } while (opcao != 0);
+
+    return 0;
+}
