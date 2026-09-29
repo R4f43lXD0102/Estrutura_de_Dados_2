@@ -1,0 +1,474 @@
+# 🌳 Revisão de Estrutura de Árvores
+
+**Aluno:** Rafael Rodrigues Lins - 441713672
+**Disciplina:** Estrutura de Dados II
+**Professora:** Profa. Kadidja Valéria
+**Modalidade:** Individual, remota e assíncrona
+
+---
+
+# 1. Revisão Bibliográfica
+
+## 1.1 Conceitos básicos de árvores
+
+Uma **árvore** é uma estrutura de dados formada por elementos chamados **nós**. Esses nós são organizados de maneira hierárquica, estabelecendo relações entre eles.
+
+Os principais conceitos são:
+
+* **Nó:** elemento que armazena uma informação.
+* **Raiz:** primeiro nó da árvore, que fica no nível mais alto.
+* **Pai:** nó que possui um ou mais nós abaixo dele.
+* **Filho:** nó que está ligado a um nó pai.
+* **Folha:** nó que não possui filhos.
+* **Subárvore:** parte de uma árvore formada por um nó e seus descendentes.
+* **Altura:** quantidade de níveis ou distância máxima entre a raiz e uma folha, dependendo da convenção adotada.
+* **Percurso:** maneira utilizada para visitar os nós de uma árvore.
+
+Uma característica importante é que uma árvore pode possuir outras árvores menores dentro dela, chamadas de **subárvores**.
+
+---
+
+## 1.2 Árvore Geral
+
+Uma **árvore geral** é uma estrutura em que um nó pode possuir qualquer quantidade de filhos.
+
+### Organização dos dados
+
+Os dados são organizados de forma hierárquica, sem limitar a quantidade de filhos que cada nó pode possuir.
+
+### Regra ou propriedade
+
+Cada nó pode ter zero, um ou vários filhos.
+
+### Operações ou ajustes
+
+É possível adicionar, remover e percorrer os nós da árvore, mantendo a relação hierárquica entre pais e filhos.
+
+### Aplicação
+
+Pode ser utilizada para representar estruturas hierárquicas, como:
+
+* pastas e subpastas;
+* organizações;
+* categorias e subcategorias;
+* estruturas de documentos.
+
+---
+
+## 1.3 Árvore Binária
+
+Uma **árvore binária** é uma árvore em que cada nó pode possuir no máximo dois filhos: um filho à esquerda e um filho à direita.
+
+No exemplo apresentado por **Cory Althoff**, uma classe `BinaryTree` possui três elementos principais:
+
+* `key`: armazena o valor do nó;
+* `left_child`: representa o filho esquerdo;
+* `right_child`: representa o filho direito.
+
+Cada filho também é uma instância da própria classe `BinaryTree`. Dessa maneira, cada filho pode representar uma nova subárvore.
+
+### Exemplo em Python
+
+```python
+class BinaryTree:
+    def __init__(self, value):
+        self.key = value
+        self.left_child = None
+        self.right_child = None
+
+    def insert_left(self, value):
+        if self.left_child == None:
+            self.left_child = BinaryTree(value)
+        else:
+            bin_tree = BinaryTree(value)
+            bin_tree.left_child = self.left_child
+            self.left_child = bin_tree
+
+    def insert_right(self, value):
+        if self.right_child == None:
+            self.right_child = BinaryTree(value)
+        else:
+            bin_tree = BinaryTree(value)
+            bin_tree.right_child = self.right_child
+            self.right_child = bin_tree
+```
+
+A criação e inserção de elementos pode ser feita da seguinte maneira:
+
+```python
+tree = BinaryTree(1)
+
+tree.insert_left(2)
+tree.insert_right(3)
+tree.insert_left(4)
+
+tree.left_child.insert_right(6)
+
+tree.insert_right(5)
+```
+
+Nesse exemplo, o nó `1` é a raiz. Os métodos `insert_left()` e `insert_right()` permitem inserir novos nós nos lados esquerdo e direito.
+
+### Aplicação
+
+Árvores binárias podem ser utilizadas para representar estruturas hierárquicas e também servem como base para outras estruturas de árvores mais específicas.
+
+> **Referência:** ALTHOFF, Cory. *Ciência da Computação Autodidata*. Capítulo 14, p. 153–154.
+
+---
+
+## 1.4 Árvore Binária de Busca — ABB
+
+A **Árvore Binária de Busca (ABB)** é uma árvore binária que possui uma regra para organizar os valores.
+
+### Organização dos dados
+
+Para cada nó:
+
+* valores menores são colocados à esquerda;
+* valores maiores são colocados à direita.
+
+Por exemplo:
+
+```text
+        8
+       / \
+      4   12
+     / \  / \
+    2  6 10 14
+```
+
+### Regra ou propriedade
+
+A principal propriedade é manter os valores menores à esquerda e os maiores à direita de cada nó.
+
+### Operação ou ajuste
+
+A busca utiliza essa organização para decidir se deve continuar pelo lado esquerdo ou pelo lado direito.
+
+Na inserção, o novo valor é comparado com os nós existentes até encontrar a posição adequada.
+
+### Aplicação
+
+Pode ser utilizada para organizar e buscar valores mantendo uma estrutura hierárquica.
+
+---
+
+## 1.5 Árvore AVL
+
+A **AVL** é uma árvore binária de busca que possui uma preocupação adicional: manter a árvore equilibrada.
+
+### Organização dos dados
+
+Os valores seguem a regra de uma árvore binária de busca.
+
+### Regra ou propriedade
+
+A altura das subárvores esquerda e direita deve permanecer controlada.
+
+### Operação ou ajuste
+
+Quando uma inserção ou remoção provoca um desequilíbrio, podem ser realizadas **rotações** para reorganizar a árvore.
+
+As rotações podem ocorrer para a esquerda ou para a direita.
+
+### Aplicação
+
+É útil quando se deseja manter operações de busca eficientes mesmo após várias inserções e remoções.
+
+---
+
+## 1.6 Árvore Rubro-Negra
+
+A **árvore rubro-negra** é uma árvore de busca balanceada que utiliza cores nos nós para controlar a estrutura.
+
+### Organização dos dados
+
+Os valores seguem a organização de uma árvore binária de busca.
+
+### Regra ou propriedade
+
+Os nós possuem uma das duas cores:
+
+* vermelho;
+* preto.
+
+Existem regras relacionadas à sequência dessas cores nos caminhos da árvore.
+
+### Operação ou ajuste
+
+Depois de algumas inserções ou remoções, podem ocorrer:
+
+* recolorações;
+* rotações.
+
+Essas operações ajudam a manter a altura da árvore sob controle.
+
+### Aplicação
+
+Pode ser utilizada em estruturas que precisam manter operações de busca, inserção e remoção eficientes.
+
+---
+
+## 1.7 Árvore B
+
+A **árvore B** é uma estrutura de árvore balanceada na qual um nó pode armazenar várias chaves.
+
+### Organização dos dados
+
+Em vez de cada nó possuir apenas uma chave, os nós podem armazenar várias chaves e possuir vários filhos.
+
+### Regra ou propriedade
+
+A estrutura deve permanecer balanceada e as chaves devem permanecer organizadas dentro dos nós.
+
+### Operação ou ajuste
+
+Quando um nó fica cheio, ele pode ser **dividido**, redistribuindo as chaves entre novos nós.
+
+### Aplicação
+
+É especialmente adequada para estruturas que trabalham com grandes quantidades de dados e acesso a armazenamento secundário.
+
+---
+
+## 1.8 Árvore B+
+
+A **árvore B+** possui características semelhantes às árvores B, mas organiza os registros de forma diferente.
+
+### Organização dos dados
+
+Os nós internos funcionam principalmente como índices, enquanto os registros ficam concentrados nas folhas.
+
+### Regra ou propriedade
+
+A árvore permanece balanceada e as folhas possuem os dados que serão consultados.
+
+### Operação ou ajuste
+
+Quando necessário, nós podem ser divididos para manter a estrutura organizada.
+
+Uma característica importante é a ligação entre as folhas, facilitando percursos sequenciais e consultas por intervalo.
+
+### Aplicação
+
+Pode ser utilizada em sistemas de banco de dados e estruturas de índices.
+
+---
+
+# 2. Quadro Comparativo
+
+| Estrutura          | Organização dos dados                     | Regra ou propriedade                          | Operação ou ajuste                    | Aplicação                         | Referência                   |
+| ------------------ | ----------------------------------------- | --------------------------------------------- | ------------------------------------- | --------------------------------- | ---------------------------- |
+| **Árvore Geral**   | Nós podem possuir vários filhos           | Não existe limite fixo de filhos              | Inserção, remoção e percursos         | Estruturas hierárquicas           | Material da disciplina       |
+| **Árvore Binária** | Cada nó possui no máximo dois filhos      | Filho esquerdo e filho direito                | Inserção de nós à esquerda ou direita | Estruturas hierárquicas           | Althoff, cap. 14, p. 153–154 |
+| **ABB**            | Menores à esquerda e maiores à direita    | Regra de ordenação dos valores                | Busca e inserção seguindo a ordenação | Organização e busca de dados      | Material da disciplina       |
+| **AVL**            | Organização de ABB                        | Mantém a árvore balanceada                    | Rotações após alterações              | Busca eficiente                   | Material da disciplina       |
+| **Rubro-Negra**    | Organização de ABB                        | Utiliza cores para controlar a altura         | Recoloração e rotações                | Estruturas de busca balanceadas   | Material da disciplina       |
+| **B**              | Várias chaves por nó                      | Árvore balanceada                             | Divisão de nós cheios                 | Grandes volumes de dados          | Material da disciplina       |
+| **B+**             | Índices internos e registros nas folhas   | Folhas organizadas e conectadas               | Divisão de nós                        | Índices e consultas por intervalo | Material da disciplina       |
+| **Heap**           | Elementos organizados segundo prioridade  | Relação de prioridade entre pai e filhos      | Inserção e remoção com reorganização  | Filas de prioridade               | Material da disciplina       |
+| **Trie**           | Dados organizados por caracteres/prefixos | Caminhos representam sequências de caracteres | Inserção e busca por caracteres       | Busca de palavras e prefixos      | Material da disciplina       |
+
+> **Observação:** as referências devem ser ajustadas de acordo com os materiais efetivamente utilizados na disciplina. O livro de Cory Althoff foi utilizado especificamente para a parte de árvore binária apresentada no capítulo 14, páginas 153–154.
+
+---
+
+# 3. Identificação por Analogias
+
+## 3.1 Situação 1
+
+> **"Uma estante de números é reorganizada por rotações quando um lado fica alto demais em relação ao outro."**
+
+### Estrutura: Árvore AVL
+
+A estrutura indicada é uma **árvore AVL**, pois ela utiliza rotações para controlar o balanceamento da árvore quando um dos lados fica muito mais alto que o outro.
+
+### Propriedade técnica
+
+A AVL procura manter equilibradas as alturas das subárvores esquerda e direita.
+
+### Limite da analogia
+
+Uma estante física não possui regras matemáticas de balanceamento. Na árvore AVL, o equilíbrio é calculado de acordo com a estrutura dos nós.
+
+---
+
+## 3.2 Situação 2
+
+> **"Um catálogo guarda várias chaves por página; quando uma página fica cheia, ela é dividida."**
+
+### Estrutura: Árvore B
+
+A estrutura é uma **árvore B**, pois seus nós podem armazenar várias chaves.
+
+### Propriedade técnica
+
+Uma característica importante é que um nó pode ficar cheio e precisar ser dividido para que a árvore continue organizada e balanceada.
+
+### Limite da analogia
+
+Uma página de catálogo é um objeto físico ou lógico, enquanto os nós de uma árvore B fazem parte de uma estrutura de dados com regras específicas de organização.
+
+---
+
+## 3.3 Situação 3
+
+> **"Uma fila mantém a tarefa de maior prioridade no topo para retirá-la primeiro."**
+
+### Estrutura: Heap
+
+A estrutura é um **heap**, pois ele pode ser utilizado para implementar uma fila de prioridade.
+
+### Propriedade técnica
+
+O heap mantém uma relação de prioridade entre os nós. No caso de um **max-heap**, o maior elemento fica na posição de maior prioridade.
+
+### Limite da analogia
+
+Uma fila comum normalmente trabalha seguindo a ordem de chegada. Já uma fila de prioridade baseada em heap retira os elementos de acordo com sua prioridade.
+
+---
+
+## 3.4 Situação 4
+
+> **"Um índice percorre letras sucessivas e compartilha o início das palavras de mesmo prefixo."**
+
+### Estrutura: Trie
+
+A estrutura é uma **Trie**, pois ela organiza informações utilizando caracteres e permite compartilhar partes comuns entre palavras.
+
+### Propriedade técnica
+
+Palavras que possuem o mesmo prefixo podem compartilhar os mesmos nós no início de seus caminhos.
+
+Por exemplo:
+
+```text
+        C
+        |
+        A
+       / \
+      S   R
+      |   |
+      A   O
+```
+
+As palavras podem compartilhar os caracteres iniciais enquanto seguem caminhos diferentes posteriormente.
+
+### Limite da analogia
+
+Um índice ou catálogo real pode possuir diferentes formas de organização, enquanto a Trie possui uma estrutura específica baseada nos caracteres das palavras.
+
+---
+
+## 3.5 Situação 5
+
+> **"Uma estrutura usa cores, recolorações e rotações para manter controlada a altura dos caminhos de busca."**
+
+### Estrutura: Árvore Rubro-Negra
+
+A estrutura é uma **árvore rubro-negra**.
+
+### Propriedade técnica
+
+Os nós possuem cores e existem regras que controlam a organização dessas cores. Quando alterações são realizadas, podem ocorrer **recolorações e rotações**.
+
+### Limite da analogia
+
+As cores dos nós não representam características dos dados armazenados. Elas são informações utilizadas pela própria estrutura para ajudar a controlar seu balanceamento.
+
+---
+
+## 3.6 Situação 6
+
+> **"Um índice conduz às folhas que contêm os registros, ligadas entre si para facilitar consultas por intervalo."**
+
+### Estrutura: Árvore B+
+
+A estrutura é uma **árvore B+**.
+
+### Propriedade técnica
+
+Na árvore B+, os nós internos podem funcionar como índices, enquanto os registros ficam nas folhas. As folhas podem estar ligadas entre si, facilitando consultas sequenciais e consultas por intervalo.
+
+### Limite da analogia
+
+Um índice de um catálogo pode ser apenas uma organização conceitual, enquanto a árvore B+ possui regras específicas para manter seus nós e folhas organizados.
+
+---
+
+## 3.7 Situação 7
+
+> **"Numa coleção de números, cada nó direciona valores menores para a esquerda e maiores para a direita."**
+
+### Estrutura: Árvore Binária de Busca — ABB
+
+A estrutura é uma **Árvore Binária de Busca (ABB)**.
+
+### Propriedade técnica
+
+A principal característica é a organização dos valores:
+
+* valores menores ficam à esquerda;
+* valores maiores ficam à direita.
+
+Por exemplo:
+
+```text
+        10
+       /  \
+      5    15
+     / \   / \
+    2   7 12 20
+```
+
+Essa organização permite direcionar a busca para um dos lados da árvore de acordo com o valor procurado.
+
+### Limite da analogia
+
+A ideia de uma coleção de números ajuda a visualizar a ordenação, mas uma ABB não é apenas uma lista ordenada: ela possui uma estrutura hierárquica formada por nós e seus relacionamentos.
+
+---
+
+# 4. Conclusão
+
+As árvores são estruturas de dados importantes para representar informações de forma hierárquica. Apesar de possuírem características em comum, cada tipo de árvore possui regras próprias para organizar os dados.
+
+A **árvore binária**, por exemplo, limita cada nó a no máximo dois filhos, sendo um esquerdo e um direito. A partir dessa estrutura podem ser construídas estruturas mais específicas, como a **Árvore Binária de Busca**.
+
+As árvores **AVL** e **rubro-negra** acrescentam mecanismos para controlar o equilíbrio da estrutura. Já as árvores **B** e **B+** trabalham com múltiplas chaves por nó e são adequadas para situações envolvendo grandes quantidades de dados e índices. A **Trie**, por sua vez, organiza informações de acordo com caracteres e prefixos, enquanto o **heap** trabalha com relações de prioridade.
+
+Assim, compreender as propriedades de cada estrutura é importante para saber qual organização é adequada para cada situação.
+
+---
+
+# 5. Referências
+
+## Livro
+
+**ALTHOFF, Cory. *Ciência da Computação Autodidata*.** Capítulo 14 — Estruturas de Dados. p. 153–154. Trecho utilizado como referência para os conceitos e exemplo de implementação de **árvore binária em Python**.
+
+## Material da disciplina
+
+**ESTRUTURA DE DADOS II.** Revisão de estrutura de árvores. Profa. Kadidja Valéria. Atividade individual remota, 28/09. Material disponibilizado na disciplina.
+
+---
+
+## 📌 Observação sobre o código de árvore binária
+
+O exemplo apresentado por Cory Althoff demonstra que um nó pode possuir referências para um filho esquerdo e um filho direito. Quando um novo `BinaryTree` é criado para representar um filho, esse filho também pode possuir seus próprios filhos, formando uma **subárvore**.
+
+A estrutura básica apresentada no livro pode ser representada conceitualmente assim:
+
+```text
+             1
+           /   \
+          4     5
+         / \
+        2   6
+```
+
+Cada número representa o `key` de um nó, enquanto as ligações representam `left_child` e `right_child`.
+
+**Fonte:** ALTHOFF, Cory. *Ciência da Computação Autodidata*, cap. 14, p. 153–154.
